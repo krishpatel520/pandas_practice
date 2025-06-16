@@ -129,4 +129,35 @@ print("\nWeekly Resampled Data:\n", resampled.head())
 
 
 
+#Vectorization
 
+
+df['Score_with_bonus'] = df['Score'] + 5
+df['Is_Senior'] = df['Age'] > 30
+
+#Safe check before normalization
+if df['Score'].notnull().all():
+    df['Score_normalized'] = (df['Score'] - df['Score'].min()) / (df['Score'].max() - df['Score'].min())
+else:
+    print("Warning: Missing or non-numeric values in 'Score' column. Normalization skipped.")
+
+#Display vectorized results
+
+print("\nData after vectorized operations:")
+cols_to_show = ['Name', 'Score', 'Score_with_bonus', 'Is_Senior']
+if 'Score_normalized' in df.columns:
+    cols_to_show.append('Score_normalized')
+print(df[cols_to_show].head())
+
+
+
+#Categorization
+
+#Before: City as object (string)
+print("Before dtype:", df['City'].dtype)
+
+#Convert to categorical
+df['City'] = df['City'].astype('category')
+
+#After: City as category
+print("After dtype:", df['City'].dtype)
